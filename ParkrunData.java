@@ -1,7 +1,16 @@
 /*
     Parkrun Data Collector
     Daniel Mesham
-    23 January 2017
+    11 February 2017
+*/
+
+/*
+    TODO:
+     - Make it possible to choose which Parkrun & event to fetch
+     - Add local storage to save time
+     - Better UI
+     - Titles, headings etc. on graphs
+     - Age vs time plot (see below)
 */
 
 import java.net.*;
@@ -14,12 +23,13 @@ import java.util.Scanner;
 public class ParkrunData {
 
     private String latestResultsURL = "http://www.parkrun.co.za/constantiagreenbelt/results/latestresults/";
+
     private Result[] results;
-    private String date;
 
     public ParkrunData() {
 
         try {
+            // Fetch & store latest results
             storeData(getData());
         } catch (Exception e) {
             System.out.println("FAILED\nERROR: Could not connect to parkrun.co.za!\nSee below for details...");
@@ -27,6 +37,7 @@ public class ParkrunData {
             System.exit(0);
         }
 
+        // Menu
         Scanner scan = new Scanner(System.in);
         int resp = -1;
         while (resp != 0) {
@@ -65,7 +76,7 @@ public class ParkrunData {
         // Reader for URL
         URL url = new URL(latestResultsURL);
 
-        // Create connection that appears to be from Mozilla
+        // Create connection that appears to be from Mozilla (otherwise access denied :( )
         HttpURLConnection httpcon = (HttpURLConnection) url.openConnection();
         httpcon.addRequestProperty("User-Agent", "Mozilla/4.0");
 
@@ -77,7 +88,8 @@ public class ParkrunData {
             in.skip(13000);
         } catch (Exception e) {}
 
-        // Read in lines until the line with the data is found
+        // Read in lines until a line contains "#explainTable"
+        // This line has the data.
         String inputLine;
         while ((inputLine = in.readLine()) != null) {
             if (inputLine.contains("#explainTable")) break;
@@ -129,6 +141,7 @@ public class ParkrunData {
 
     /**
         Creates a JFrame that displays the data.
+        TODO: Should really be its own class...
     */
     private void showTableWindow() {
         JFrame frame = new JFrame("Parkrun Data");
@@ -177,6 +190,7 @@ public class ParkrunData {
 
     /**
         Creates a JFrame with an age vs time graph
+        TODO: Should also be its own class...
     */
     private void showPlotWindow(String title, GraphPanel graph) {
         JFrame frame = new JFrame(title);
