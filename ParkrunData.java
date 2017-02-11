@@ -10,7 +10,6 @@
      - Add local storage to save time
      - Better UI
      - Titles, headings etc. on graphs
-     - Age vs time plot (see below)
 */
 
 import java.net.*;
@@ -52,11 +51,14 @@ public class ParkrunData {
             resp = Integer.parseInt(in.substring(0,1));
 
             switch (resp) {
+                case 0:
+                    System.exit(0);
                 case 1:
                     showTableWindow();
                     break;
                 case 2:
-                    // TODO: Age vs time plot
+                    // Show agae vs time plot
+                    showPlotWindow("Age vs Time", graphAgeVsTime(pointsAgeVsTime(results)));
                     break;
                 case 3:
                     // Show time vs num. runners graph

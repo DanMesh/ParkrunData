@@ -12,7 +12,7 @@ class ScatterGraphPanel extends GraphPanel {
 
     private GraphPoint[][] dataPoints;
 
-    private static int size = 3;
+    private static int size = 1;
 
     private static Color[] COLORS = { Color.RED, Color.GREEN, Color.BLUE, Color.ORANGE, Color.MAGENTA, Color.CYAN, Color.PINK, Color.YELLOW };
 
@@ -26,8 +26,7 @@ class ScatterGraphPanel extends GraphPanel {
         super.paintComponent(g);
 
         for (int i = 0; i < dataPoints.length; i ++) {
-            int colorIndex = i;
-            while (colorIndex < COLORS.length) colorIndex -= COLORS.length;
+            int colorIndex = i % COLORS.length;
             plot(dataPoints[i], COLORS[colorIndex], g);
         }
     }
