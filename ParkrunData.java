@@ -85,9 +85,9 @@ public class ParkrunData {
         // Reader
         BufferedReader in = new BufferedReader( new InputStreamReader( httpcon.getInputStream() ) );
 
-        // Try to skip 13000 characters (for ±3s less time :) )
+        // Try to skip 12000 characters (a hack, but it saves time)
         try {
-            in.skip(13000);
+            in.skip(12000);
         } catch (Exception e) {}
 
         // Read in lines until a line contains "#explainTable"
